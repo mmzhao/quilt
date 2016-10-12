@@ -1,7 +1,10 @@
 package stitch
 
 import (
+	"bytes"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"reflect"
 	"regexp"
 	"strings"
@@ -686,8 +689,11 @@ func TestMachineAttribute(t *testing.T) {
 }
 
 func TestKeys(t *testing.T) {
-	getGithubKeys = func(username string) ([]string, error) {
-		return []string{username}, nil
+	httpGet = func(url string) (*http.Response, error) {
+		resp := http.Response{
+			Body: ioutil.NopCloser(bytes.NewBufferString("githubkeys")),
+		}
+		return &resp, nil
 	}
 
 	checkKeys := func(code, expectedCode string, expected ...string) {
@@ -707,10 +713,10 @@ func TestKeys(t *testing.T) {
 	checkKeys(code, code, "key")
 
 	code = `(machine (githubKey "user"))`
-	checkKeys(code, code, "user")
+	checkKeys(code, code, "githubkeys")
 
 	code = `(machine (githubKey "user") (sshkey "key"))`
-	checkKeys(code, code, "user", "key")
+	checkKeys(code, code, "githubkeys", "key")
 }
 
 func TestLabel(t *testing.T) {
