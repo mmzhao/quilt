@@ -113,7 +113,8 @@ func testContainerTxn(conn db.Conn, spec string) string {
 	})
 
 	var sc scanner.Scanner
-	compiledStr, err := stitch.Compile(*sc.Init(strings.NewReader(spec)), "", false)
+	compiledStr, err := stitch.Compile(*sc.Init(strings.NewReader(spec)),
+		stitch.DefaultImportGetter)
 	if err != nil {
 		return err.Error()
 	}
@@ -234,7 +235,8 @@ func testConnectionTxn(conn db.Conn, spec string) string {
 	})
 
 	var sc scanner.Scanner
-	compiledStr, err := stitch.Compile(*sc.Init(strings.NewReader(spec)), "", false)
+	compiledStr, err := stitch.Compile(*sc.Init(strings.NewReader(spec)),
+		stitch.DefaultImportGetter)
 	if err != nil {
 		return err.Error()
 	}

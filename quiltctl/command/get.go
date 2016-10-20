@@ -24,7 +24,8 @@ func (gCmd *Get) createFlagSet() *flag.FlagSet {
 
 	flags.Usage = func() {
 		fmt.Println("usage: quilt get [-import=<import>] <import> ")
-		fmt.Println("`get` downloads a given import into QUILT_PATH.")
+		fmt.Printf("`get` downloads a given import into %s.\n",
+			stitch.QuiltPathKey)
 		flags.PrintDefaults()
 	}
 
@@ -53,7 +54,7 @@ func (gCmd *Get) Parse(args []string) error {
 
 // Run downloads the requested import.
 func (gCmd *Get) Run() int {
-	if err := stitch.GetSpec(gCmd.importPath); err != nil {
+	if err := stitch.DefaultImportGetter.Get(gCmd.importPath); err != nil {
 		log.WithError(err).Errorf("Error getting import `%s`.", gCmd.importPath)
 		return 1
 	}

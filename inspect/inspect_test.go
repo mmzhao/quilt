@@ -29,7 +29,9 @@ func TestSlug(t *testing.T) {
 func initSpec(src string) (stitch.Stitch, error) {
 	var sc scanner.Scanner
 	sc.Init(strings.NewReader(src))
-	compiled, err := stitch.Compile(sc, "../specs", false)
+	compiled, err := stitch.Compile(sc, stitch.ImportGetter{
+		Path: "../specs",
+	})
 	if err != nil {
 		return stitch.Stitch{}, err
 	}

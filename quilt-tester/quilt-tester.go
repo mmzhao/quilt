@@ -13,6 +13,7 @@ import (
 	"github.com/Sirupsen/logrus"
 
 	"github.com/NetSys/quilt/db"
+	"github.com/NetSys/quilt/stitch"
 )
 
 const (
@@ -166,7 +167,7 @@ func (t *tester) setup() error {
 	go runQuiltDaemon()
 
 	// Get our specs
-	os.Setenv("QUILT_PATH", quiltPath)
+	os.Setenv(stitch.QuiltPathKey, quiltPath)
 	l.infoln(fmt.Sprintf("Downloading %s into %s", testerImport, quiltPath))
 	_, _, err := downloadSpecs(testerImport)
 	if err != nil {

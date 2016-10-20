@@ -19,7 +19,9 @@ func configRunOnce(configPath string, quiltPath string) error {
 	defer f.Close()
 
 	var sc scanner.Scanner
-	compiled, err := stitch.Compile(*sc.Init(bufio.NewReader(f)), quiltPath, false)
+	compiled, err := stitch.Compile(*sc.Init(bufio.NewReader(f)), stitch.ImportGetter{
+		Path: quiltPath,
+	})
 	if err != nil {
 		return err
 	}

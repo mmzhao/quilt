@@ -90,7 +90,8 @@ func (rCmd *Run) Run() int {
 		},
 	}
 
-	compiled, err := stitch.Compile(*sc.Init(bufio.NewReader(f)), pathStr, false)
+	compiled, err := stitch.Compile(*sc.Init(bufio.NewReader(f)),
+		stitch.DefaultImportGetter)
 	if err != nil {
 		log.WithError(err).Errorf("%s failed to compile.", spec)
 		return 1

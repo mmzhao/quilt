@@ -8,7 +8,10 @@ import (
 
 func initSpec(src string) (Stitch, error) {
 	var sc scanner.Scanner
-	compiled, err := Compile(*sc.Init(strings.NewReader(src)), "../specs", false)
+	compiled, err := Compile(*sc.Init(strings.NewReader(src)),
+		ImportGetter{
+			Path: "../specs",
+		})
 	if err != nil {
 		return Stitch{}, err
 	}
@@ -33,6 +36,25 @@ func TestReach(t *testing.T) {
 (invariant reach false "c" "a")
 (invariant between true "a" "c" "b")
 (invariant between false "c" "a" "b")`
+	_, err := initSpec(stc)
+	if err != nil {
+		t.Error(err)
+	}
+}
+
+func TestReachPublic(t *testing.T) {
+	stc := `(label "a" (docker "ubuntu"))
+(label "b" (docker "ubuntu"))
+(label "c" (docker "ubuntu"))
+
+(connect 22 "a" "public")
+(connect 22 "public" "b")
+(connect 22 "b" "c")
+
+(invariant reach true "public" "b")
+(invariant reach true "public" "c")
+(invariant reach false "public" "a")
+(invariant reach false "b" "public")`
 	_, err := initSpec(stc)
 	if err != nil {
 		t.Error(err)

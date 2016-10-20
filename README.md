@@ -59,6 +59,9 @@ some network connections.
     // Create 2 Spark containers, and label them "batch"
     (label "batch" (makeList 2 (docker "spark")))
 
+    // Create a Postgres container, and label it "database"
+    (label "database" (docker "postgres"))
+
     // A deployment consists of a database, a webTier, and a batch processing
     (label "deployment" (list "database" "webTier" "batch"))
 

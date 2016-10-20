@@ -113,13 +113,13 @@ func toStitch(parsed []ast) (Stitch, error) {
 // single string that can be evaluated without other dependencies. It also
 // confirms that the result doesn't have any invariant, syntax, or evaluation
 // errors.
-func Compile(sc scanner.Scanner, path string, download bool) (string, error) {
+func Compile(sc scanner.Scanner, getter ImportGetter) (string, error) {
 	parsed, err := parse(sc)
 	if err != nil {
 		return "", err
 	}
 
-	parsed, err = resolveImports(parsed, path, download)
+	parsed, err = getter.resolveImports(parsed)
 	if err != nil {
 		return "", err
 	}

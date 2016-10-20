@@ -2,3 +2,4 @@ bin/quilt-tester
 tests/basic/check_docker
 tests/basic/check_logs
 tests/spark/check_spark_monly
+vagrant/.vagrant/

@@ -519,7 +519,8 @@ func TestACLs(t *testing.T) {
 
 func prog(t *testing.T, code string) stitch.Stitch {
 	var sc scanner.Scanner
-	compiled, err := stitch.Compile(*sc.Init(strings.NewReader(code)), "", false)
+	compiled, err := stitch.Compile(*sc.Init(strings.NewReader(code)),
+		stitch.DefaultImportGetter)
 	if err != nil {
 		t.Error(err.Error())
 		return stitch.Stitch{}

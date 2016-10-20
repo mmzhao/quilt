@@ -9,8 +9,6 @@ import (
 	"github.com/NetSys/quilt/stitch"
 )
 
-const quiltPath = "QUILT_PATH"
-
 // Usage prints the usage string for the inspect tool.
 func Usage() {
 	fmt.Fprintln(
@@ -45,8 +43,8 @@ func Main(opts []string) int {
 			Filename: configPath,
 		},
 	}
-	pathStr, _ := os.LookupEnv(quiltPath)
-	compiled, err := stitch.Compile(*sc.Init(bufio.NewReader(f)), pathStr, false)
+	compiled, err := stitch.Compile(*sc.Init(bufio.NewReader(f)),
+		stitch.DefaultImportGetter)
 	if err != nil {
 		fmt.Fprintln(os.Stderr, err)
 		os.Exit(1)

@@ -154,14 +154,13 @@ func (g *Graph) removeNode(label string) {
 // Find all nodes reachable from the given node.
 func (n Node) dfs() []string {
 	reached := map[string]struct{}{}
-	reached[PublicInternetLabel] = struct{}{}
 
 	var explore func(t Node)
 	explore = func(t Node) {
 		for label, node := range t.Connections {
 			_, explored := reached[label]
-			if !explored {
-				reached[label] = struct{}{}
+			reached[label] = struct{}{}
+			if !explored && label != PublicInternetLabel {
 				explore(node)
 			}
 		}
